@@ -1,6 +1,6 @@
-# Composer dependencies
+# Composer dependencies (vendor folder only)
+# Keep composer.lock for consistent deployments
 vendor/
-composer.lock
 
 # Uploaded files (user content)
 uploads/*.jpg

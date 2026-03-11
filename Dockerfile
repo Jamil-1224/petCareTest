@@ -30,9 +30,8 @@ WORKDIR /var/www/html/
 # Copy all application files
 COPY . .
 
-# Install Composer dependencies
-RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction || \
-    composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --ignore-platform-reqs
+# Install Composer dependencies with correct MongoDB library version
+RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
 
 # Enable Apache modules
 RUN a2enmod rewrite headers expires deflate
