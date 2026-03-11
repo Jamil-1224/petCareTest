@@ -1,16 +1,20 @@
 FROM php:8.2-apache
 
-# Install system dependencies
+# Install system dependencies and certificates
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     zip \
     unzip \
     libzip-dev \
+    libssl-dev \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install zip
+
+# Install MongoDB extension
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # Install Composer
@@ -19,17 +23,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html/
 
-# Copy composer files first
-COPY composer.json composer.lock* ./
-
-# Install Composer dependencies (allow plugins to run)
-RUN composer install --no-dev --optimize-autoloader --no-scripts --no-autoloader
-
-# Copy application files
+# Copy all application files
 COPY . .
 
-# Generate optimized autoloader
-RUN composer dump-autoload --optimize --no-dev
+# Install Composer dependencies with verbose output
+RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction || \
+    (echo "Composer install failed. Trying with --ignore-platform-reqs..." && \
+     composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --ignore-platform-reqs)
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
