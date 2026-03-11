@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Install system dependencies and certificates
+# Install system dependencies, OpenSSL, and certificates
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -8,17 +8,18 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libzip-dev \
     libssl-dev \
+    openssl \
     ca-certificates \
+    libcurl4-openssl-dev \
+    pkg-config \
+    && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install zip
 
-# Install MongoDB extension with SSL support
-RUN pecl install mongodb-1.19.3 && docker-php-ext-enable mongodb
-
-# Update CA certificates for MongoDB Atlas TLS
-RUN update-ca-certificates
+# Install MongoDB extension with SSL support (latest stable)
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -54,8 +55,11 @@ RUN echo "log_errors = On" > /usr/local/etc/php/conf.d/error-logging.ini && \
     echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/error-logging.ini
 
 # MongoDB configuration for SSL/TLS
-RUN echo "mongodb.debug = 0" > /usr/local/etc/php/conf.d/mongodb.ini && \
-    echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
+RUN echo "mongodb.debug = 0" > /usr/local/etc/php/conf.d/mongodb.ini
+
+# OpenSSL configuration for MongoDB Atlas compatibility
+RUN echo "[openssl_init]" > /usr/local/etc/php/conf.d/openssl.ini && \
+    echo "ssl_conf=ssl_sect" >> /usr/local/etc/php/conf.d/openssl.ini
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
