@@ -44,10 +44,11 @@ RUN mkdir -p /var/lib/php/sessions \
 # Set PHP configuration for sessions
 RUN echo "session.save_path = \"/var/lib/php/sessions\"" > /usr/local/etc/php/conf.d/sessions.ini
 
-# Enable PHP error logging (not display for security)
+# Enable PHP error logging AND display for debugging
 RUN echo "log_errors = On" > /usr/local/etc/php/conf.d/error-logging.ini && \
     echo "error_log = /var/log/php_errors.log" >> /usr/local/etc/php/conf.d/error-logging.ini && \
-    echo "display_errors = Off" >> /usr/local/etc/php/conf.d/error-logging.ini
+    echo "display_errors = On" >> /usr/local/etc/php/conf.d/error-logging.ini && \
+    echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/error-logging.ini
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \

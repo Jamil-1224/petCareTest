@@ -14,10 +14,9 @@ RewriteRule ^$ index.php [L]
 # Prevent directory browsing
 Options -Indexes
 
-# Protect sensitive files
+# Protect sensitive files (Apache 2.4 syntax)
 <FilesMatch "(db_connect\.php|functions\.php|twilio_helper\.php|composer\.json|composer\.lock|\.log)$">
-    Order allow,deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
 # Protect vendor directory
