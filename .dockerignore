@@ -9,7 +9,7 @@ check_*.php
 .git
 .gitignore
 *.md
-composer.lock
+# Keep composer.lock - needed for consistent builds
 
 # Exclude logs
 *.log
