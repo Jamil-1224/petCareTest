@@ -1,0 +1,23 @@
+# Exclude test and debug files from Docker image
+test.php
+debug.php
+test_server.php
+test_*.php
+check_*.php
+
+# Exclude local development files
+.git
+.gitignore
+*.md
+composer.lock
+
+# Exclude logs
+*.log
+twilio_errors.log
+reminder_check.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo

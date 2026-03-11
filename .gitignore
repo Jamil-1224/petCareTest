@@ -18,9 +18,10 @@ uploads/verification/*
 reminder_check.log
 twilio_errors.log
 
-# Sensitive configuration files with credentials
-twilio_helper.php
-db_connect.php
+# Sensitive configuration files
+# Note: db_connect.php and twilio_helper.php use environment variables
+# so they're safe to commit. Set MONGODB_URI, TWILIO_SID, TWILIO_TOKEN,
+# TWILIO_FROM environment variables in production
 
 # Temporary/test files
 test_*.php
