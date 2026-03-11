@@ -1,0 +1,59 @@
+# Composer dependencies
+vendor/
+composer.lock
+
+# Uploaded files (user content)
+uploads/*.jpg
+uploads/*.png
+uploads/*.jpeg
+uploads/*.gif
+uploads/verification/*
+
+# Keep folder structure
+!uploads/.gitkeep
+!uploads/verification/.gitkeep
+
+# Logs
+*.log
+reminder_check.log
+twilio_errors.log
+
+# Sensitive configuration files with credentials
+twilio_helper.php
+db_connect.php
+
+# Temporary/test files
+test_*.php
+check_*.php
+setup_*.php
+*_test.php
+
+# Documentation (after setup)
+INSTALL_*.md
+SETUP_*.md
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Database files (after import)
+*.sql
+*_schema.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Windows
+*.bat.bak
+Thumbs.db
+desktop.ini
+
+# Environment
+.env
+.env.local
+

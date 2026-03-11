@@ -1,0 +1,16 @@
+{
+    "name": "petcare/project",
+    "description": "Pet Care Reminder System",
+    "type": "project",
+    "require": {
+        "php": ">=7.1.0",
+        "twilio/sdk": "^8.8",
+        "mongodb/mongodb": "^1.8"
+    },
+    "autoload": {
+        "files": [
+            "db_connect.php",
+            "functions.php"
+        ]
+    }
+}

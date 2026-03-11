@@ -1,0 +1,72 @@
+# PetCare .htaccess Configuration
+
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Set the default directory index
+DirectoryIndex index.php
+
+# Redirect to index.php if accessing root
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^$ index.php [L]
+
+# Prevent directory browsing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "(db_connect\.php|functions\.php|twilio_helper\.php|composer\.json|composer\.lock|\.log)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect vendor directory
+<IfModule mod_rewrite.c>
+    RewriteRule ^vendor/.*$ - [F,L]
+</IfModule>
+
+# Protect uploads directory (except images)
+<DirectoryMatch "^.*/uploads/.*$">
+    <FilesMatch "\.(jpg|jpeg|png|gif|pdf)$">
+        Order allow,deny
+        Allow from all
+    </FilesMatch>
+</DirectoryMatch>
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Enable compression for faster page loads
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
+
+# Browser caching for static files
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevent MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Enable XSS protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Error pages (optional - create these files if needed)
+# ErrorDocument 404 /404.php
+# ErrorDocument 500 /500.php
