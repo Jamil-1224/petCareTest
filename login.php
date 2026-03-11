@@ -177,7 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="login-footer">
                 <p>Don't have an account? <a href="register.php">Create Account</a></p>
-                <p>Administrator? <a href="admin_login.php">Admin Login</a></p>
             </div>
         </div>
     </main>

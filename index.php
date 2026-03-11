@@ -178,6 +178,15 @@ if (isset($_SESSION['user_id'])) {
             background: #45a049;
         }
 
+        .btn-admin {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-admin:hover {
+            background: #ee5a52;
+        }
+
         .features {
             max-width: 1200px;
             margin: 60px auto;
@@ -270,6 +279,15 @@ if (isset($_SESSION['user_id'])) {
             <div class="buttons">
                 <a href="doctor_login.php" class="btn btn-primary">Doctor Login</a>
                 <a href="doctor_register.php" class="btn btn-secondary">Register</a>
+            </div>
+        </div>
+
+        <div class="portal-card">
+            <div class="icon">⚙️</div>
+            <h2>Administrator</h2>
+            <p>Manage users, doctors, articles, adoptions, and oversee the entire system</p>
+            <div class="buttons">
+                <a href="admin/login.php" class="btn btn-admin">Admin Login</a>
             </div>
         </div>
     </div>
