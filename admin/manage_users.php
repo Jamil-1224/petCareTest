@@ -1,5 +1,5 @@
 <?php
-require '../functions.php';
+require __DIR__ . '/../functions.php';
 if (!is_admin()) {
   header("Location: login.php");
   exit;

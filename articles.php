@@ -1,5 +1,5 @@
 <?php
-require 'functions.php';
+require __DIR__ . '/functions.php';
 require_login();
 
 $res = mongoFind('articles', [], ['sort' => ['created_at' => -1]]);

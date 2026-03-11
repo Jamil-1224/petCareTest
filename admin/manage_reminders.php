@@ -1,6 +1,6 @@
 <?php
-require '../functions.php';
-require '../twilio_helper.php';
+require __DIR__ . '/../functions.php';
+require __DIR__ . '/../twilio_helper.php';
 if (!is_admin()) {
     header("Location: login.php");
     exit;

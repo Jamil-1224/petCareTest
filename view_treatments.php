@@ -1,6 +1,6 @@
 <?php
-require_once 'db_connect.php';
-require_once 'functions.php';
+require_once __DIR__ . '/db_connect.php';
+require_once __DIR__ . '/functions.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -33,7 +33,7 @@ $treatments = mongoAggregate('cat_treatments', [
     ]
 ]);
 
-include 'header.php';
+include __DIR__ . '/header.php';
 ?>
 
 <div class="treatments-container">

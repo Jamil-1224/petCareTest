@@ -1,5 +1,5 @@
 <?php
-require '../functions.php';
+require __DIR__ . '/../functions.php';
 // Include the function to establish a connection or ensure $conn is available.
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

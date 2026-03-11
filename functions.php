@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once 'db_connect.php';
+require_once __DIR__ . '/db_connect.php';
 
 if (!function_exists('is_logged_in')) {
     function is_logged_in()

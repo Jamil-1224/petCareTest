@@ -1,5 +1,5 @@
 <?php
-require 'functions.php';
+require __DIR__ . '/functions.php';
 require_login();
 $uid = $_SESSION['user_id'];
 $msg = '';
