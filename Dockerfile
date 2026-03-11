@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.1-apache
 
 # Install system dependencies, OpenSSL, and certificates
 RUN apt-get update && apt-get install -y \
@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 RUN docker-php-ext-install zip
 
-# Install MongoDB extension with SSL support (latest stable)
-RUN pecl install mongodb && docker-php-ext-enable mongodb
+# Install MongoDB extension with SSL support (latest for PHP 8.1)
+RUN pecl install mongodb-1.20.0 && docker-php-ext-enable mongodb
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

@@ -4,10 +4,10 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.0 <8.3",
         "ext-mongodb": "*",
         "twilio/sdk": "^8.8",
-        "mongodb/mongodb": "^1.17"
+        "mongodb/mongodb": "^1.20"
     },
     "autoload": {
         "files": []
