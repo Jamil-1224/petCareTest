@@ -22,7 +22,16 @@ if (!$MONGO_URI) {
 }
 
 try {
-    $client = new Client($MONGO_URI);
+    // MongoDB connection options with SSL/TLS configuration
+    $options = [
+        'tls' => true,
+        'tlsAllowInvalidCertificates' => false,
+        'tlsAllowInvalidHostnames' => false,
+        'serverSelectionTimeoutMS' => 5000,
+        'connectTimeoutMS' => 10000,
+    ];
+    
+    $client = new Client($MONGO_URI, $options);
     $db = $client->$DB_NAME;
 
     // Test connection

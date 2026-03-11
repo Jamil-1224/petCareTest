@@ -14,8 +14,11 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 RUN docker-php-ext-install zip
 
-# Install MongoDB extension
-RUN pecl install mongodb && docker-php-ext-enable mongodb
+# Install MongoDB extension with SSL support
+RUN pecl install mongodb-1.19.3 && docker-php-ext-enable mongodb
+
+# Update CA certificates for MongoDB Atlas TLS
+RUN update-ca-certificates
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -49,6 +52,10 @@ RUN echo "log_errors = On" > /usr/local/etc/php/conf.d/error-logging.ini && \
     echo "error_log = /var/log/php_errors.log" >> /usr/local/etc/php/conf.d/error-logging.ini && \
     echo "display_errors = On" >> /usr/local/etc/php/conf.d/error-logging.ini && \
     echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/error-logging.ini
+
+# MongoDB configuration for SSL/TLS
+RUN echo "mongodb.debug = 0" > /usr/local/etc/php/conf.d/mongodb.ini && \
+    echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
