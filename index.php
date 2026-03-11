@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PetCare - Main Landing Page
  */
@@ -26,6 +27,7 @@ if (isset($_SESSION['user_id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,17 +38,23 @@ if (isset($_SESSION['user_id'])) {
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="pawprint" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse"><circle cx="40" cy="30" r="8" fill="rgba(255,255,255,0.05)"/><circle cx="60" cy="30" r="8" fill="rgba(255,255,255,0.05)"/><circle cx="30" cy="50" r="8" fill="rgba(255,255,255,0.05)"/><circle cx="70" cy="50" r="8" fill="rgba(255,255,255,0.05)"/><ellipse cx="50" cy="60" rx="18" ry="22" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="1200" height="800" fill="url(%23pawprint)"/></svg>');
+            background-size: cover, 300px 300px;
+            background-attachment: fixed;
             min-height: 100vh;
         }
+
         nav {
             background: rgba(255, 255, 255, 0.95);
             padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         nav .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -55,11 +63,13 @@ if (isset($_SESSION['user_id'])) {
             justify-content: space-between;
             align-items: center;
         }
+
         nav .logo {
             font-size: 1.5em;
             font-weight: bold;
             color: #667eea;
         }
+
         nav .nav-links a {
             margin-left: 20px;
             text-decoration: none;
@@ -68,25 +78,30 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 5px;
             transition: all 0.3s;
         }
+
         nav .nav-links a:hover {
             background: #667eea;
             color: white;
         }
+
         .hero {
             text-align: center;
             color: white;
             padding: 80px 20px;
         }
+
         .hero h1 {
             font-size: 3.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
+
         .hero p {
             font-size: 1.4em;
             margin-bottom: 50px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
+
         .portals {
             max-width: 1200px;
             margin: 0 auto;
@@ -95,37 +110,44 @@ if (isset($_SESSION['user_id'])) {
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
+
         .portal-card {
             background: white;
             border-radius: 15px;
             padding: 40px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s, box-shadow 0.3s;
         }
+
         .portal-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
+
         .portal-card .icon {
             font-size: 4em;
             margin-bottom: 20px;
         }
+
         .portal-card h2 {
             color: #333;
             margin-bottom: 15px;
             font-size: 1.8em;
         }
+
         .portal-card p {
             color: #666;
             margin-bottom: 25px;
         }
+
         .portal-card .buttons {
             display: flex;
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
         }
+
         .btn {
             padding: 12px 30px;
             font-size: 1em;
@@ -137,46 +159,47 @@ if (isset($_SESSION['user_id'])) {
             transition: all 0.3s;
             font-weight: 600;
         }
+
         .btn-primary {
             background: #667eea;
             color: white;
         }
+
         .btn-primary:hover {
             background: #5568d3;
         }
+
         .btn-secondary {
             background: #4CAF50;
             color: white;
         }
+
         .btn-secondary:hover {
             background: #45a049;
         }
-        .btn-admin {
-            background: #ff6b6b;
-            color: white;
-        }
-        .btn-admin:hover {
-            background: #ee5a52;
-        }
+
         .features {
             max-width: 1200px;
             margin: 60px auto;
             padding: 40px 20px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
+
         .features h2 {
             text-align: center;
             font-size: 2.5em;
             color: #333;
             margin-bottom: 40px;
         }
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
         }
+
         .feature-item {
             padding: 25px;
             background: #f8f9fa;
@@ -184,29 +207,35 @@ if (isset($_SESSION['user_id'])) {
             text-align: center;
             transition: transform 0.3s;
         }
+
         .feature-item:hover {
             transform: translateY(-5px);
             background: #e9ecef;
         }
+
         .feature-item .icon {
             font-size: 3em;
             margin-bottom: 15px;
         }
+
         .feature-item h3 {
             color: #667eea;
             margin-bottom: 10px;
         }
+
         .feature-item p {
             color: #666;
         }
+
         footer {
             text-align: center;
             padding: 30px 20px;
             color: white;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
+
 <body>
     <nav>
         <div class="container">
@@ -241,15 +270,6 @@ if (isset($_SESSION['user_id'])) {
             <div class="buttons">
                 <a href="doctor_login.php" class="btn btn-primary">Doctor Login</a>
                 <a href="doctor_register.php" class="btn btn-secondary">Register</a>
-            </div>
-        </div>
-
-        <div class="portal-card">
-            <div class="icon">⚙️</div>
-            <h2>Administrator</h2>
-            <p>Manage users, doctors, articles, adoptions, and oversee the entire system</p>
-            <div class="buttons">
-                <a href="admin/login.php" class="btn btn-admin">Admin Login</a>
             </div>
         </div>
     </div>
@@ -309,4 +329,5 @@ if (isset($_SESSION['user_id'])) {
         <p>&copy; 2026 PetCare. All rights reserved. | Your Pet's Health, Our Priority</p>
     </footer>
 </body>
+
 </html>
