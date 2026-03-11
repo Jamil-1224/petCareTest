@@ -1,20 +1,35 @@
 FROM php:8.2-apache
 
-# Install MongoDB Extension
-RUN pecl install mongodb
-RUN docker-php-ext-enable mongodb
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    zip \
+    unzip \
+    libzip-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install zip
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy Files
-COPY . /var/www/html/
-
 # Set working directory
 WORKDIR /var/www/html/
 
-# Install Composer dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Copy composer files first
+COPY composer.json composer.lock* ./
+
+# Install Composer dependencies (allow plugins to run)
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-autoloader
+
+# Copy application files
+COPY . .
+
+# Generate optimized autoloader
+RUN composer dump-autoload --optimize --no-dev
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
