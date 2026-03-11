@@ -26,17 +26,33 @@ WORKDIR /var/www/html/
 # Copy all application files
 COPY . .
 
-# Install Composer dependencies with verbose output
+# Install Composer dependencies
 RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction || \
-    (echo "Composer install failed. Trying with --ignore-platform-reqs..." && \
-     composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --ignore-platform-reqs)
+    composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --ignore-platform-reqs
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable Apache modules
+RUN a2enmod rewrite headers expires deflate
+
+# Configure Apache - Allow .htaccess overrides
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+
+# Create and set permissions for session directory
+RUN mkdir -p /var/lib/php/sessions \
+    && chown -R www-data:www-data /var/lib/php/sessions \
+    && chmod -R 755 /var/lib/php/sessions
+
+# Set PHP configuration for sessions
+RUN echo "session.save_path = \"/var/lib/php/sessions\"" > /usr/local/etc/php/conf.d/sessions.ini
+
+# Enable PHP error logging (not display for security)
+RUN echo "log_errors = On" > /usr/local/etc/php/conf.d/error-logging.ini && \
+    echo "error_log = /var/log/php_errors.log" >> /usr/local/etc/php/conf.d/error-logging.ini && \
+    echo "display_errors = Off" >> /usr/local/etc/php/conf.d/error-logging.ini
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+    && chmod -R 755 /var/www/html \
+    && chmod -R 777 /var/www/html/uploads
 
 # Expose port 80
 EXPOSE 80
