@@ -88,4 +88,3 @@ echo "MONGODB_URI set: " . ($mongodb_uri ? 'YES (hidden for security)' : 'NO') .
 echo "<h2>Success!</h2>";
 echo "If you see this message, PHP is working correctly.<br>";
 echo "Now try accessing your main pages (login.php, index.php, etc.)<br>";
-?>
