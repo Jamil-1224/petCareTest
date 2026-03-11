@@ -2,15 +2,18 @@
     "name": "petcare/project",
     "description": "Pet Care Reminder System",
     "type": "project",
+    "license": "proprietary",
     "require": {
         "php": ">=8.0",
+        "ext-mongodb": "*",
         "twilio/sdk": "^8.8",
         "mongodb/mongodb": "^1.17"
     },
     "autoload": {
-        "files": [
-            "db_connect.php",
-            "functions.php"
-        ]
+        "files": []
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
     }
 }

@@ -27,11 +27,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html/
 
+# Copy composer files first for better caching
+COPY composer.json composer.lock ./
+
+# Install Composer dependencies (before copying all files for better Docker caching)
+# Use --ignore-platform-req=ext-mongodb since we install it via pecl
+RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --no-scripts --ignore-platform-req=ext-mongodb
+
 # Copy all application files
 COPY . .
 
-# Install Composer dependencies with correct MongoDB library version
-RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
+# Generate optimized autoloader with all files present
+RUN composer dump-autoload --optimize --no-dev
 
 # Enable Apache modules
 RUN a2enmod rewrite headers expires deflate
