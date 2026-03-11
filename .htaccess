@@ -25,13 +25,13 @@ Options -Indexes
     RewriteRule ^vendor/.*$ - [F,L]
 </IfModule>
 
-# Protect uploads directory (except images)
-<DirectoryMatch "^.*/uploads/.*$">
-    <FilesMatch "\.(jpg|jpeg|png|gif|pdf)$">
-        Order allow,deny
-        Allow from all
-    </FilesMatch>
-</DirectoryMatch>
+# Protect uploads directory (except images and PDFs)
+<IfModule mod_rewrite.c>
+    # Block all uploads except allowed file types
+    RewriteCond %{REQUEST_URI} ^/uploads/
+    RewriteCond %{REQUEST_URI} !\.(jpg|jpeg|png|gif|pdf)$ [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
 
 # Set default charset
 AddDefaultCharset UTF-8
