@@ -688,3 +688,133 @@ a.danger:hover {
   color: white;
 }
 
+/* Global responsive safety rules */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+@media (max-width: 992px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 0 0.75rem;
+  }
+
+  header.top {
+    padding: 0.75rem;
+  }
+
+  header.top nav {
+    width: 100%;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  header.top nav a {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.88rem;
+  }
+
+  .hero {
+    padding: 1.5rem 1rem;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-stats {
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    min-width: 100%;
+    padding: 1rem;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .action-btn,
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .list .item,
+  .reminder-item,
+  .card .item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .petimg {
+    width: 90px;
+    height: 90px;
+  }
+
+  .tab-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tab-btn {
+    width: 100%;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 576px) {
+  header.top h1 {
+    font-size: 1.2rem;
+  }
+
+  .auth {
+    width: 100%;
+    margin: 1.25rem auto;
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .dashboard-actions,
+  .dashboard-reminders {
+    padding: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  input,
+  select,
+  textarea,
+  .form-control {
+    font-size: 16px;
+  }
+}
+

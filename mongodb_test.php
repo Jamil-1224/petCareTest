@@ -37,24 +37,23 @@ use MongoDB\Client;
 
 try {
     echo "Attempting connection...<br>";
-    
+
     // Try with minimal options first
     $options = [
         'serverSelectionTimeoutMS' => 5000,
     ];
-    
+
     $client = new Client($uri, $options);
     echo "✓ Client created<br>";
-    
+
     // Try to list databases
     $databases = $client->listDatabases();
     echo "✓ Successfully connected to MongoDB!<br>";
-    
+
     echo "<br><h3>Available Databases:</h3>";
     foreach ($databases as $db) {
         echo "- " . $db->getName() . "<br>";
     }
-    
 } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
     echo "✗ Connection Timeout<br>";
     echo "Error: " . $e->getMessage() . "<br>";
@@ -62,7 +61,6 @@ try {
     echo "- Network firewall blocking MongoDB Atlas (port 27017)<br>";
     echo "- IP whitelist restrictions on MongoDB Atlas<br>";
     echo "- MongoDB cluster is down<br>";
-    
 } catch (\MongoDB\Driver\Exception\SSLConnectionException $e) {
     echo "✗ SSL/TLS Error<br>";
     echo "Error: " . $e->getMessage() . "<br>";
@@ -70,7 +68,6 @@ try {
     echo "- OpenSSL version incompatibility<br>";
     echo "- Certificate validation issues<br>";
     echo "- TLS version mismatch<br>";
-    
 } catch (Exception $e) {
     echo "✗ Connection Failed<br>";
     echo "Error Type: " . get_class($e) . "<br>";
@@ -94,4 +91,3 @@ if ($ip !== $host) {
 } else {
     echo "✗ DNS resolution failed<br>";
 }
-?>

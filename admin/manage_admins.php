@@ -69,6 +69,7 @@ $admins = $conn->query("SELECT user_id, name, email, created_at FROM users WHERE
 
 <head>
     <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Admins - PetCare</title>
     <link rel="stylesheet" href="../style.css">
     <style>

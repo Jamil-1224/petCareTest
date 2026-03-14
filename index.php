@@ -196,6 +196,53 @@ if (isset($_SESSION['user_id'])) {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
+        .info-section {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-section h2 {
+            text-align: center;
+            font-size: 2.2em;
+            color: #333;
+            margin-bottom: 18px;
+        }
+
+        .info-section .lead {
+            text-align: center;
+            color: #555;
+            margin: 0 auto 30px;
+            max-width: 850px;
+            font-size: 1.08em;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .info-card p {
+            color: #666;
+        }
+
         .features h2 {
             text-align: center;
             font-size: 2.5em;
@@ -242,6 +289,31 @@ if (isset($_SESSION['user_id'])) {
             color: white;
             background: rgba(0, 0, 0, 0.2);
         }
+
+        @media (max-width: 900px) {
+            nav .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav .nav-links a {
+                margin: 4px;
+            }
+
+            .hero h1 {
+                font-size: 2.4em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+        }
     </style>
 </head>
 
@@ -250,6 +322,8 @@ if (isset($_SESSION['user_id'])) {
         <div class="container">
             <div class="logo">🐾 PetCare</div>
             <div class="nav-links">
+                <a href="#why-petcare">Why PetCare</a>
+                <a href="#pet-benefits">Pet Benefits</a>
                 <a href="#features">Features</a>
                 <a href="#portals">Get Started</a>
             </div>
@@ -260,6 +334,52 @@ if (isset($_SESSION['user_id'])) {
         <h1>🐾 Welcome to PetCare</h1>
         <p>Your Complete Pet Health & Care Management System</p>
     </div>
+
+    <section id="why-petcare" class="info-section">
+        <h2>Why Use This Website?</h2>
+        <p class="lead">PetCare keeps your pet's health, reminders, and veterinary communication in one place so you can spend less time organizing and more time caring.</p>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>All-in-One Pet Management</h3>
+                <p>Track profiles, records, appointments, reminders, and daily care from a single dashboard.</p>
+            </div>
+            <div class="info-card">
+                <h3>Faster Vet Communication</h3>
+                <p>Connect directly with doctors through messaging and quickly follow up on treatment plans.</p>
+            </div>
+            <div class="info-card">
+                <h3>Smarter Preventive Care</h3>
+                <p>Set medicine, vaccine, and checkup reminders to avoid missed care milestones.</p>
+            </div>
+            <div class="info-card">
+                <h3>Better Family Access</h3>
+                <p>Keep key pet information easy to access for everyone in your household.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pet-benefits" class="info-section">
+        <h2>Pet Benefits You Get</h2>
+        <p class="lead">Consistent care improves quality of life for your pet and reduces emergency stress for owners.</p>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>Healthier Daily Routine</h3>
+                <p>Regular feeding, medication, and activity tracking helps maintain stable health.</p>
+            </div>
+            <div class="info-card">
+                <h3>Early Issue Detection</h3>
+                <p>With organized records, unusual symptoms and patterns are easier to spot early.</p>
+            </div>
+            <div class="info-card">
+                <h3>Reduced Anxiety</h3>
+                <p>Prepared appointments and reminders reduce last-minute rush and missed treatments.</p>
+            </div>
+            <div class="info-card">
+                <h3>Long-Term Wellbeing</h3>
+                <p>Consistent preventive care supports a longer, happier, and safer life for pets.</p>
+            </div>
+        </div>
+    </section>
 
     <div id="portals" class="portals">
         <div class="portal-card">

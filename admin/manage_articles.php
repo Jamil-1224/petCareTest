@@ -42,6 +42,7 @@ $res = mongoFind('articles', [], ['sort' => ['created_at' => -1]]);
 
 <head>
     <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Articles - Admin</title>
     <link rel="stylesheet" href="../style.css">
 </head>

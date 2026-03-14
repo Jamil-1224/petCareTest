@@ -28,20 +28,17 @@ try {
         'serverSelectionTimeoutMS' => 10000,
         'connectTimeoutMS' => 10000,
     ]);
-    
+
     $db = $client->$DB_NAME;
 
     // Test connection - will throw exception if connection fails
     $client->listDatabases();
-    
 } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
     error_log("MongoDB Connection Timeout: " . $e->getMessage());
     die("MongoDB Connection failed: Unable to reach database server. Please check network connectivity and MongoDB Atlas whitelist settings.");
-    
 } catch (\MongoDB\Driver\Exception\SSLConnectionException $e) {
     error_log("MongoDB SSL Error: " . $e->getMessage());
     die("MongoDB Connection failed: SSL/TLS handshake error. Please check OpenSSL configuration and MongoDB driver version.");
-    
 } catch (Exception $e) {
     error_log("MongoDB Connection Error: " . $e->getMessage());
     die("MongoDB Connection failed: " . $e->getMessage());

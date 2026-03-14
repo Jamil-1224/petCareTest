@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require __DIR__ . '/functions.php';
 require_login();
 $uid = $_SESSION['user_id'];
@@ -240,6 +240,7 @@ $reminders = $db->reminders->aggregate([
 
 <head>
     <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reminders - PetCare</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
