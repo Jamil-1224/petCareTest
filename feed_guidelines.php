@@ -1,7 +1,13 @@
 <?php
 // PHP code remains the same
 require __DIR__ . '/functions.php';
-require_login();
+
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['doctor_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$can_manage_feed = is_admin() || isset($_SESSION['doctor_id']);
 $res = mongoFind('feed', [], ['sort' => ['pet_type' => 1]]);
 ?>
 <!doctype html>
@@ -169,17 +175,26 @@ $res = mongoFind('feed', [], ['sort' => ['pet_type' => 1]]);
 <body>
     <header class="top">
         <nav>
-            <a href="dashboard.php">Dashboard</a>
-            <a href="pets.php">Pets</a>
-            <a href="reminders.php">Reminders</a>
-            <a href="appointments.php">Appointments</a>
-            <a href="view_memories.php">Memories</a>
-            <a href="articles.php">Articles</a>
-            <a href="adoption.php">Adoption</a>
-            <a href="feed_guidelines.php" class="active">Feed Guidelines</a>
-            <a href="view_treatments.php">Treatments</a>
-            <a href="profile.php">Profile</a>
-            <a href="logout.php">Logout</a>
+            <?php if (isset($_SESSION['doctor_id'])): ?>
+                <a href="doctor_dashboard.php">Doctor Dashboard</a>
+                <a href="feed_guidelines.php" class="active">Feed Guidelines</a>
+                <?php if ($can_manage_feed): ?>
+                    <a href="add_feed.php">Add Guideline</a>
+                <?php endif; ?>
+                <a href="doctor_logout.php">Logout</a>
+            <?php else: ?>
+                <a href="dashboard.php">Dashboard</a>
+                <a href="pets.php">Pets</a>
+                <a href="reminders.php">Reminders</a>
+                <a href="appointments.php">Appointments</a>
+                <a href="view_memories.php">Memories</a>
+                <a href="articles.php">Articles</a>
+                <a href="adoption.php">Adoption</a>
+                <a href="feed_guidelines.php" class="active">Feed Guidelines</a>
+                <a href="view_treatments.php">Treatments</a>
+                <a href="profile.php">Profile</a>
+                <a href="logout.php">Logout</a>
+            <?php endif; ?>
         </nav>
     </header>
 
@@ -206,14 +221,16 @@ $res = mongoFind('feed', [], ['sort' => ['pet_type' => 1]]);
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p>No feed guidelines available at the moment. Click the '+' button to add one!</p>
+                <p>No feed guidelines available at the moment.</p>
             <?php endif; ?>
         </div>
     </main>
 
-    <a href="add_feed.php">
-        <button class="add-btn" title="Add New Feed Guideline">+</button>
-    </a>
+    <?php if ($can_manage_feed): ?>
+        <a href="add_feed.php" aria-label="Add New Feed Guideline">
+            <button class="add-btn" title="Add New Feed Guideline">+</button>
+        </a>
+    <?php endif; ?>
 
 </body>
 

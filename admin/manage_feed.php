@@ -2,6 +2,12 @@
 require __DIR__ . '/../functions.php';
 // Include the function to establish a connection or ensure $conn is available.
 
+require_login();
+if (!is_admin()) {
+  header('Location: ../dashboard.php');
+  exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $type = $_POST['pet_type'];
   $suitable = $_POST['suitable'];
