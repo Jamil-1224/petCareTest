@@ -110,6 +110,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['appointment_id'], $_P
             list-style: none;
             display: flex;
             gap: 1rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            max-width: 100%;
+            padding-bottom: 4px;
         }
 
         nav ul li a {
@@ -118,6 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['appointment_id'], $_P
             padding: 0.5rem 1rem;
             border-radius: 6px;
             transition: background 0.3s ease;
+            white-space: nowrap;
+            display: inline-block;
         }
 
         nav ul li a:hover,
@@ -244,10 +250,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['appointment_id'], $_P
             header {
                 flex-direction: column;
                 text-align: center;
+                align-items: flex-start;
+                gap: 0.8rem;
             }
 
             nav ul {
-                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+            }
+
+            header .user-info {
+                width: 100%;
+                text-align: left;
+                font-size: 0.95rem;
             }
 
             table,
@@ -295,6 +310,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['appointment_id'], $_P
                 <li><a href="doctor_dashboard.php" class="active">Appointments</a></li>
                 <li><a href="doctor_messages.php">Messages</a></li>
                 <li><a href="post_treatment.php">Post Treatment</a></li>
+                <li><a href="feed_guidelines.php">Feed Guidelines</a></li>
                 <li><a href="doctor_profile.php">Profile</a></li>
                 <li><a href="doctor_logout.php">Logout</a></li>
             </ul>

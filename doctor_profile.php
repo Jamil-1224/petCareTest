@@ -16,6 +16,12 @@ $error = '';
 
 // Fetch doctor data
 $doctor = mongoFindOne('doctors', ['_id' => stringToObjectId($doctor_id)]);
+$profileImage = '';
+if (!empty($doctor['profile_image']) && is_string($doctor['profile_image'])) {
+    $profileImage = $doctor['profile_image'];
+}
+
+$defaultAvatar = 'https://ui-avatars.com/api/?name=' . urlencode($doctor['full_name'] ?? 'Doctor') . '&background=00796b&color=ffffff&size=256';
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['full_name'])) {
@@ -29,12 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['full_name'])) {
         $error = "Please fill in all required fields.";
     } else {
         // Handle image upload
-        $profile_image = $doctor['profile_image'];
+        $profile_image = $doctor['profile_image'] ?? '';
         if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === 0) {
             $upload_dir = 'uploads/';
             $new_name = time() . '_' . basename($_FILES['profile_image']['name']);
-            move_uploaded_file($_FILES['profile_image']['tmp_name'], $upload_dir . $new_name);
-            $profile_image = $upload_dir . $new_name;
+            if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $upload_dir . $new_name)) {
+                $profile_image = $upload_dir . $new_name;
+            }
         }
 
         $updateResult = mongoUpdate(
@@ -55,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['full_name'])) {
             $_SESSION['doctor_name'] = $full_name;
             // Refresh doctor data
             $doctor = mongoFindOne('doctors', ['_id' => stringToObjectId($doctor_id)]);
+            $profileImage = !empty($doctor['profile_image']) && is_string($doctor['profile_image']) ? $doctor['profile_image'] : '';
         } else {
             $error = "Error updating profile.";
         }
@@ -70,86 +78,110 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['full_name'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Profile - Pet Care</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #f5f7fa;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .container {
-            display: flex;
+        body {
+            background: linear-gradient(135deg, #e0f7fa, #ffffff);
+            color: #333;
             min-height: 100vh;
         }
 
-        .sidebar {
-            background: rgb(52, 76, 109);
+        header {
+            background: #00796b;
             color: white;
-            width: 280px;
-            padding: 30px 20px;
+            padding: 1.2rem 2rem;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .sidebar img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #fff;
-            margin-bottom: 15px;
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
         }
 
-        .sidebar h2 {
-            margin: 10px 0 5px;
-            font-size: 22px;
+        header .user-info {
+            font-size: 1rem;
+            font-weight: 500;
         }
 
-        .sidebar p {
-            font-size: 15px;
-            opacity: 0.9;
-            margin-bottom: 25px;
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            max-width: 100%;
+            padding-bottom: 4px;
         }
 
-        .sidebar a {
+        nav ul li a {
             color: white;
             text-decoration: none;
-            padding: 10px;
-            display: block;
-            text-align: center;
+            padding: 0.5rem 1rem;
             border-radius: 6px;
-            margin: 5px 0;
-            background: rgba(255, 255, 255, 0.15);
-            transition: background 0.3s;
+            transition: background 0.3s ease;
+            white-space: nowrap;
+            display: inline-block;
         }
 
-        .sidebar a:hover,
-        .sidebar a.active {
-            background: rgba(255, 255, 255, 0.3);
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: #004d40;
         }
 
-        .content {
-            flex: 1;
-            padding: 40px;
+        main {
+            padding: 2rem;
         }
 
-        h1 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 20px;
+        .profile-wrap {
+            max-width: 980px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.25rem;
         }
 
+        .doctor-card,
         form {
             background: white;
             border-radius: 12px;
-            padding: 25px 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            max-width: 700px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .doctor-card {
+            text-align: center;
+            height: fit-content;
+        }
+
+        .doctor-card img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00796b;
+            margin-bottom: 0.75rem;
+        }
+
+        .doctor-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .doctor-card p {
+            color: #555;
+            margin-bottom: 0.25rem;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 1rem;
         }
 
         label {
@@ -203,57 +235,98 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['full_name'])) {
             background: #c9f7c4;
             color: #1a531b;
         }
+
+        @media (max-width: 900px) {
+            .profile-wrap {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: left;
+                align-items: flex-start;
+                gap: 0.8rem;
+            }
+
+            nav ul {
+                width: 100%;
+                gap: 0.5rem;
+            }
+
+            header .user-info {
+                width: 100%;
+                font-size: 0.95rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <header>
+        <h1>Doctor Dashboard - Profile</h1>
+        <nav>
+            <ul>
+                <li><a href="doctor_dashboard.php">Appointments</a></li>
+                <li><a href="doctor_messages.php">Messages</a></li>
+                <li><a href="post_treatment.php">Post Treatment</a></li>
+                <li><a href="feed_guidelines.php">Feed Guidelines</a></li>
+                <li><a href="doctor_profile.php" class="active">Profile</a></li>
+                <li><a href="doctor_logout.php">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">Welcome, Dr. <?= htmlspecialchars($_SESSION['doctor_name'] ?? 'Doctor') ?></div>
+    </header>
 
-    <div class="container">
-        <div class="sidebar">
-            <img src="<?php echo !empty($doctor['profile_image']) ? htmlspecialchars($doctor['profile_image']) : 'default-avatar.png'; ?>" alt="Doctor Image">
-            <h2><?php echo htmlspecialchars($doctor['full_name']); ?></h2>
-            <p><?php echo htmlspecialchars($doctor['specialization']); ?></p>
-            <a href="doctor_dashboard.php">Appointments</a>
-            <a href="doctor_messages.php">Messages</a>
-            <a href="post_treatment.php">Post Treatment</a>
-            <a href="doctor_profile.php" class="active">Profile</a>
-            <a href="doctor_logout.php">Logout</a>
+    <main>
+        <div class="profile-wrap">
+            <aside class="doctor-card">
+                <img src="<?= esc($profileImage ?: $defaultAvatar) ?>" alt="Doctor Image" onerror="this.src='<?= esc($defaultAvatar) ?>'">
+                <h2><?= esc($doctor['full_name'] ?? 'Doctor') ?></h2>
+                <p><?= esc($doctor['specialization'] ?? 'Veterinarian') ?></p>
+                <p><?= esc($doctor['email'] ?? '') ?></p>
+            </aside>
+
+            <section>
+                <h1>Edit Profile</h1>
+                <?php if ($error): ?><div class="message error"><?php echo $error; ?></div><?php endif; ?>
+                <?php if ($success): ?><div class="message success"><?php echo $success; ?></div><?php endif; ?>
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" name="full_name" value="<?php echo htmlspecialchars($doctor['full_name'] ?? ''); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Specialization *</label>
+                        <input type="text" name="specialization" value="<?php echo htmlspecialchars($doctor['specialization'] ?? ''); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone *</label>
+                        <input type="tel" name="phone" value="<?php echo htmlspecialchars($doctor['phone'] ?? ''); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea name="address"><?php echo htmlspecialchars($doctor['address'] ?? ''); ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Professional Bio</label>
+                        <textarea name="bio"><?php echo htmlspecialchars($doctor['bio'] ?? ''); ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Profile Image</label>
+                        <input type="file" name="profile_image" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn">Save Changes</button>
+                </form>
+            </section>
         </div>
-
-        <div class="content">
-            <h1>Edit Profile</h1>
-            <?php if ($error): ?><div class="message error"><?php echo $error; ?></div><?php endif; ?>
-            <?php if ($success): ?><div class="message success"><?php echo $success; ?></div><?php endif; ?>
-
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" name="full_name" value="<?php echo htmlspecialchars($doctor['full_name']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label>Specialization *</label>
-                    <input type="text" name="specialization" value="<?php echo htmlspecialchars($doctor['specialization']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone *</label>
-                    <input type="tel" name="phone" value="<?php echo htmlspecialchars($doctor['phone']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label>Address</label>
-                    <textarea name="address"><?php echo htmlspecialchars($doctor['address']); ?></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Professional Bio</label>
-                    <textarea name="bio"><?php echo htmlspecialchars($doctor['bio']); ?></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Profile Image</label>
-                    <input type="file" name="profile_image">
-                </div>
-                <button type="submit" class="btn">Save Changes</button>
-            </form>
-        </div>
-    </div>
+    </main>
 
 </body>
 

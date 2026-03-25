@@ -146,6 +146,10 @@ foreach ($allUsersArray as $user) {
             list-style: none;
             display: flex;
             gap: 1rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            max-width: 100%;
+            padding-bottom: 4px;
         }
 
         nav ul li a {
@@ -154,6 +158,8 @@ foreach ($allUsersArray as $user) {
             padding: 0.5rem 1rem;
             border-radius: 6px;
             transition: background 0.3s ease;
+            white-space: nowrap;
+            display: inline-block;
         }
 
         nav ul li a:hover,
@@ -502,6 +508,23 @@ foreach ($allUsersArray as $user) {
         }
 
         @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
+                text-align: left;
+            }
+
+            nav ul {
+                width: 100%;
+                gap: 0.5rem;
+            }
+
+            header .user-info {
+                width: 100%;
+                font-size: 0.95rem;
+            }
+
             .chat-container {
                 grid-template-columns: 1fr;
             }
@@ -525,6 +548,7 @@ foreach ($allUsersArray as $user) {
                 <li><a href="doctor_dashboard.php">Appointments</a></li>
                 <li><a href="doctor_messages.php" class="active">Messages</a></li>
                 <li><a href="post_treatment.php">Post Treatment</a></li>
+                <li><a href="feed_guidelines.php">Feed Guidelines</a></li>
                 <li><a href="doctor_profile.php">Profile</a></li>
                 <li><a href="doctor_logout.php">Logout</a></li>
             </ul>
